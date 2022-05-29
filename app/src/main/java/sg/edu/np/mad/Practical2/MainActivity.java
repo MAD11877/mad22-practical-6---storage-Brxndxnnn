@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private ArrayList<User> data;
-
+    DBHandler dbHandler = new DBHandler(this);
 
 
     @Override
@@ -32,11 +32,13 @@ public class MainActivity extends AppCompatActivity {
                     followButton.setText("Unfollow");
                     user123.followed = true;
                     Toast.makeText(getApplicationContext(), "Followed", Toast.LENGTH_SHORT).show();
+                    dbHandler.updateUsers(user123);
                 }
                 else{
                     followButton.setText("Follow");
                     user123.followed = false;
                     Toast.makeText(getApplicationContext(), "Unfollowed", Toast.LENGTH_SHORT).show();
+                    dbHandler.updateUsers(user123);
                 }
             }
         });
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         mainText.setText(ListActivity.userList.get(p).name);
         descText.setText(ListActivity.userList.get(p).description);
         user123.followed = ListActivity.userList.get(p).followed;
+        user123.id = ListActivity.userList.get(p).id;
         if(!user123.followed){
             followButton.setText("Follow");
         }
@@ -69,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    User user123 = new User("MAD", "Blue Red White Sheep", 1, false);
+    User user123 = new User();
 
 
 

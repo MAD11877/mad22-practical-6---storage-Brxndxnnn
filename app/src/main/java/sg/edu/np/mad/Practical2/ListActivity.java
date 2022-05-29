@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -18,32 +19,28 @@ public class ListActivity extends AppCompatActivity implements BrandsAdapter.OnP
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        DBHandler dbHandler = new DBHandler(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        Random random1 = new Random();
+        userList = dbHandler.getUsers();
 
-        while (userList.size() < 20) {
-            User randomUser = new User("Name" + random1.nextInt(), "Description" + random1.nextInt(), 1, random1.nextBoolean());
-            userList.add(randomUser);
+        Random random1 = new Random();
+        for (int i = 0; i < 20; i++) {
+            User randomUser = new User("Name" + random1.nextInt(), "Description" + random1.nextInt(), i+1, random1.nextBoolean());
+            dbHandler.insertUsers(randomUser);
         }
+
+        //Log.d("fuck", String.valueOf(userList.size()));
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview1);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         BrandsAdapter mAdapter = new BrandsAdapter(userList, this);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(mAdapter);
-        //recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        //ImageView buttonImg = (ImageView) findViewById(R.id.imageView4);
-        //buttonImg.setOnClickListener(new View.OnClickListener() {
-        //    @Override
-        //    public void onClick(View v) {
-        //        Log.d("Hello", "Hello");
-        //        Toast.makeText(getApplicationContext(), "Alert Dialog Prompted", Toast.LENGTH_SHORT).show();
-        //        //dialog1.show();
-        //    }
-        //});
     }
 
     @Override
@@ -51,9 +48,6 @@ public class ListActivity extends AppCompatActivity implements BrandsAdapter.OnP
         userList.get(position);
         profileDialog(position);
 
-        //Intent intent = new Intent(this, MainActivity.class);
-
-        //startActivity(intent);
     }
 
     private void profileDialog(int position){
@@ -70,15 +64,6 @@ public class ListActivity extends AppCompatActivity implements BrandsAdapter.OnP
                 Intent activityName = new Intent(ListActivity.this, MainActivity.class);
                 activityName.putExtra("position",position);
                 startActivity(activityName);
-                //if (userList.get(position).name.charAt(-1) == 7)
-                //{
-                //
-                //}
-                //else{
-                //    Intent activityName = new Intent(ListActivity.this, MainActivity.class);
-                //    activityName.putExtra("position",position);
-                //    startActivity(activityName);
-                //}
             }
         });
         builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {

@@ -12,7 +12,11 @@ public class User {
         id = i;
         followed = f;
     }
+
+    public User() {
+
     }
+}
 
 
 
