@@ -33,7 +33,7 @@ public class ListActivity extends AppCompatActivity implements BrandsAdapter.OnP
             dbHandler.insertUsers(randomUser);
         }
 
-        //Log.d("fuck", String.valueOf(userList.size()));
+
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview1);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
